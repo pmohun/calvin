@@ -1,0 +1,4 @@
+prompt_name = seuss
+temperature = 0.9
+
+Here’s a poem by Dr. Seuss. The poem rhymes every other line with an ABAB structure. The rhyme structure is typical of Dr. Seuss nursery rhymes.
