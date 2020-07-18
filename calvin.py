@@ -1,17 +1,18 @@
 import openai, requests, os, json
 
-f = open('prompts.json')
-data = json.load(f)
-
 def list_prompts():
+  f = open('prompts.json')
+  data = json.load(f)
   print(list(data.keys());
+  return data
 
-r = requests.get("https://api.openai.com/v1/engines/davinci/completions/browser_stream", 
-  headers=headers,
-  stream=True,
-  params={
-    "prompt": 'Once upon a time',
-    "max_tokens": 3,
-})
-for line in r:
-  print(line)
+def create(prompt, data):
+  text = input()
+  response = openai.Completion.create(engine="davinci", prompt=data[prompt][0]['prompt'] + text, max_tokens=150)
+  output = response["choices"][0]['text']
+
+if __name__ == 'main':
+  data = list_prompts
+  print('Please input a prompt: ')
+  prompt = input()
+  create(prompt, data)
