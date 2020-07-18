@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 version_contents = {}
 with open(
-    os.path.join(os.path.abspath(os.path.dirname(__file__)), "openai/version.py")
+    os.path.join(os.path.abspath(os.path.dirname(__file__)), "calvin/version.py")
 ) as f:
     exec(f.read(), version_contents)
 
