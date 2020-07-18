@@ -21,8 +21,8 @@ https://github.com/philmohun/calvin
 ## How to use this library
 
 - Clone locally (pip coming soon)
-- '''import calvin'''
-- '''calvin.prompt_list'''
+- ```import calvin```
+- ```calvin.prompt_list()```
 
 ## How To Contribute New Prompts
 
