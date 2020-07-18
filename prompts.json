@@ -11,7 +11,7 @@
       "temperature": 1.0
     }
   ],
-  "legalese": [
+  "legalse": [
     {
       "prompt": "Legalese: The payment method you select will be in effect for all of your cases that are enforced by the Department and this authorization will remain in force until you submit another Payment Option Select and Enrollment form to change your payment method, or you terminate services with the Department. \nPlain English: We will use your choice for all payments we send you.",
       "temperature": 0.4
@@ -25,7 +25,7 @@
   ],
   "stack-overflow": [
     {
-      "prompt": "Question: ",
+      "prompt": "Question:",
       "temperature": 0.5
     }
   ]
