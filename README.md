@@ -2,7 +2,7 @@
 
 ## What is it?
 
-**calvin** is a Python library designed to improve the developer experience when working with pretrained language models. **calvin** provides premade prompts for interacting with language models like GPT-3. It simplifies the learning curve by providing ease to use examples and sample text to get started. Additionally, it has the broader goal of becoming **the most comprehensive repository of prompts for interacting with language models.**
+**calvin** is a Python library designed to improve the developer experience when working with pretrained language models. **calvin** provides premade prompts for interacting with language models like GPT-3. It simplifies the learning curve by providing easy to use examples and sample text to get started. Additionally, it has the broader goal of becoming **the most comprehensive repository of prompts for interacting with language models.**
 
 It is named after Susan Calvin, robopsycologist from Asimov's robot novels. 
 
