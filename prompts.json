@@ -30,6 +30,13 @@
   "code-javascript": [
     {}
   ],
+  "code-react": [
+    {
+      "prompt": "import React from 'react';\n const HeaderComponent = 0 => {",
+      "temperature": 0.4,
+      "sample" : ""
+    }
+  ],
   "stack-overflow": [
     {
       "prompt": "Question: ",
