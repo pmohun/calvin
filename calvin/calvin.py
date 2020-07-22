@@ -2,7 +2,7 @@ import json
 import requests
 
 # #                                             #   #
-#   Dolores - abstraction module over openai's API  #
+#   Calvin - abstraction module over openai's API  #
 # #                                             #   #
 
 
@@ -14,9 +14,7 @@ prompts = {}
 
 # Initialize module
 def initialize(_api_key, _engine):
-  global engine
-  global headers
-  global prompts
+  global engine, headers, prompts
 
   if _engine:
     engine = _engine
