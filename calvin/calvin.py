@@ -1,30 +1,44 @@
 import json
 import requests
 
-# #                                             #   #
-#   Calvin - abstraction module over openai's API  #
-# #                                             #   #
+# #                                               # #
+#   calvin - abstraction module over openai's API   #
+# #                                               # #
 
 
-# Defile module-scoped variables
-engine = "davinci"
+# Define module-scoped variables
+engine = None
+api_key = None
 headers = {}
 prompts = {}
 
+# Define organization specific variables for future language models
+organizations = {
+  'openai': {
+    #TODO: Change to base_url and add suffix within methods
+    'url': 'https://api.openai.com/v1/engines/{engine}/completions',
+    'engine': 'davinci',
+    'headers': {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer {api_key}"
+    }
+  }
+}
+
 
 # Initialize module
-def initialize(_api_key, _engine):
-  global engine, headers, prompts
+def initialize(_api_key, _org = 'openai'):
+  # Define global variables to update outside scope of function
+  global organizations, engine, url, headers, prompts, api_key
 
-  if _engine:
-    engine = _engine
-
-  headers = {
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {_api_key}"
-  }
-
+  engine = organizations[_org]['engine'] #TODO: add parameter to allow user to instantiate with different engine than davinci
+  url = organizations[_org]['url'].format(engine=engine)
+  headers = organizations[_org]['headers']
   prompts = json.load(open("./calvin/prompts.json"))
+  api_key = _api_key
+
+  # set API key in headers
+  headers['Authorization'] = headers['Authorization'].format(api_key = _api_key)
 
 # Change engine setting
 def set_engine(_engine):
@@ -59,14 +73,55 @@ def retrieve_engine():
   else:
     return response.raise_for_status()
 
+def test_gen(_prompt):
+
+  global api_key
+  
+  url = f"https://api.openai.com/v1/engines/{engine}/completions"
+  headers = {
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {_api_key}"
+  }
+
 # Create Completion POST
 # Create a completion. This is the main endpoint of the API.
 # Returns new text as well as, if requested, the probabilities over each alternative token at each position.
-def create_completion(payload):
-  global headers
 
-  url = f"https://api.openai.com/v1/engines/{engine}/completions"
-  response = requests.post(url, headers=headers, json=payload)
+def generate(_prompt, input = "", _predefined = False, _temperature = 0.5, _max_tokens = 50, _top_p = 1, _n = 1, _prompt_index = 0):
+  
+  global engine, headers, prompts, url, prompts
+  
+  if _predefined == True:
+    try:
+      if _prompt in prompts:
+        payload = prompts[_prompt][_prompt_index]
+        response = requests.post(url, headers, json=payload)
+    except:
+      print('Prompt not found in prompt list.')
+  else:
+    payload = {
+      "prompt": _prompt,
+      "max_tokens": _max_tokens,
+      "temperature": _temperature,
+      "top_p": _top_p,
+      "n": _n
+    }
+    response = requests.post(url, headers, json=payload)
+
+  try:
+    if response.ok:
+      print(f"JSON: {response.json()}")
+      return response.json()
+    else:
+      return response.raise_for_status()
+  except Exception as e:
+    print(e)
+    
+
+def create_completion(payload):
+  global headers, url
+
+  response = requests.post(url, headers, json=payload)
 
   if response.ok:
     print(f"JSON: {response.json()}")
@@ -97,10 +152,10 @@ def complete_predefined_prompt(prompt_key, index=0):
 # Search POST
 # Perform a semantic search over a list of documents.
 def search(payload):
-  global headers
+  global headers, url
 
-  url = f"https://api.openai.com/v1/engines/{engine}/search"
-  response = requests.post(url, headers=headers, json=payload)
+  url = url + '/search'
+  response = requests.post(url, headers, json=payload)
 
   if response.ok:
     print(f"JSON: {response.json()}")
@@ -119,19 +174,3 @@ def test_create_completion():
   }
 
   create_completion(payload)
-
-
-
-"""
-Example completion request payload
-{
-  "prompt": "Once upon a time",
-  "max_tokens": 5,
-  "temperature": 1,
-  "top_p": 1,
-  "n": 1,
-  "stream": false,
-  "logprobs": null,
-  "stop": "\n"
-}
-"""
