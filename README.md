@@ -29,7 +29,9 @@ https://github.com/philmohun/calvin
 ```calvin.complete_prompt("Hello, world!")```
 
 - Alternatively, you can use a predefined prompt from our collection. 
-```calvin.complete_predefined_prompt('philosopher')
+
+```calvin.complete_predefined_prompt('philosopher')```
 
 To see other prompts:
-- ``` calvin.list_prompts() ```
+
+``` calvin.list_prompts() ```
