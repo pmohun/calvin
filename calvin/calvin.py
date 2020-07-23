@@ -2,7 +2,7 @@ import json
 import requests
 
 # #                                               # #
-#   Calvin - abstraction module over openai"s API   #
+#   Calvin - abstraction module over openai's API   #
 # #                                               # #
 
 
