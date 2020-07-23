@@ -33,7 +33,7 @@ def initialize(_api_key, _engine="davinci"):
 
 #
 def get_globals():
-  global ap_key, engine, headers, prompts
+  global api_key, engine, headers, prompts
 
   return api_key, engine, headers, prompts
 
