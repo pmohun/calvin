@@ -7,17 +7,22 @@ import requests
 
 
 # Defile module-scoped variables
-engine = "davinci"
+engine = ""
+api_key = ""
 headers = {}
 prompts = {}
 
 
 # Initialize module
-def initialize(_api_key, _engine=engine):
-  global engine, headers, prompts
+def initialize(_api_key, _engine="davinci"):
+  global api_key, engine, headers, prompts
 
-  if _engine:
+  if _api_key:
+    api_key = _api_key
     engine = _engine
+  else:
+    print("No API Key provided. Initialization failed.")
+    return
 
   headers = {
     "Content-Type": "application/json",
@@ -28,13 +33,9 @@ def initialize(_api_key, _engine=engine):
 
 #
 def get_globals():
-  global engine, headers, prompts
+  global api_key, engine, headers, prompts
 
-  print({
-    engine: engine,
-    headers: headers,
-    prompts: prompts # Figure out why this wont serialize -_-
-  })
+  return api_key, engine, headers, prompts
 
 # Change engine setting
 def set_engine(_engine):
@@ -53,7 +54,7 @@ def list_engines():
     print(f"JSON: {response.json()}")
     return response.json()
   else:
-    return response.raise_for_status()
+    response.raise_for_status()
 
 # Retrieve Engine GET
 # Retrieves an engine instance, providing basic information about the engine such as the owner and availability.
@@ -67,12 +68,21 @@ def retrieve_engine():
     print(f"JSON: {response.json()}")
     return response.json()
   else:
-    return response.raise_for_status()
+    response.raise_for_status()
 
 # Create Completion POST
 # Returns new text as well as, if requested, the probabilities over each alternative token at each position.
-def create_completion(payload):
+def complete_prompt(prompt, max_tokens=5, temperature=1, top_p=1, n=1):
   global engine, headers
+
+# Create payload for API Request
+  payload = {
+    "prompt": prompt,
+    "max_tokens": max_tokens,
+    "temperature": temperature,
+    "top_p": top_p,
+    "n": n
+  }
 
   url = f"https://api.openai.com/v1/engines/{engine}/completions"
   response = requests.post(url, headers=headers, json=payload)
@@ -81,28 +91,32 @@ def create_completion(payload):
     print(f"JSON: {response.json()}")
     return response.json()
   else:
-    return response.raise_for_status()
+    response.raise_for_status()
 
-def complete_prompt(prompt):
-  payload = {
-    "prompt": prompt,
-    "max_tokens": 150,
-    "temperature": 0.9,
-    "top_p": 1,
-    "n": 1
-  }
-
-  create_completion(payload)
-
-def complete_predefined_prompt(prompt_key, prompt = "", index=0):
+def complete_predefined_prompt(prompt_key, index=0, prompt = ""):
   global prompts
 
-  if prompt_key in prompts and prompt != "":
-    payload = prompts[prompt_key][index]
-    payload['prompt'] = prompts[prompt_key][index]['prompt'] + " " + prompt
-    create_completion(payload)
-  elif prompt_key in prompts and prompt == "":
-    create_completion(prompts[prompt_key][index])
+  # If key exists in prompt dictionary select it complete it
+  if prompt_key in prompts:
+    payload = {}
+
+    if prompt != "":
+      # Append custom prompt to predefined prompt
+      payload = prompts[prompt_key][index]
+      payload["prompt"] = prompts[prompt_key][index]["prompt"] + " " + prompt
+
+    elif prompt == "":
+      # Set predefined prompt
+      payload = prompts[prompt_key][index]
+
+    complete_prompt(
+      payload["prompt"],
+      payload["max_tokens"],
+      payload["temperature"],
+      payload["top_p"],
+      payload["n"]
+    )
+
   else:
     return "Unable to access predefined prompt."
 
@@ -120,31 +134,3 @@ def search(payload):
     return response.json()
   else:
     return response.raise_for_status()
-
-# Test function to confirm it works
-def test_create_completion():
-  payload = {
-    "prompt": "Once upon a time",
-    "max_tokens": 5,
-    "temperature": 1,
-    "top_p": 1,
-    "n": 1
-  }
-
-  create_completion(payload)
-
-
-
-"""
-Example completion request payload
-{
-  "prompt": "Once upon a time",
-  "max_tokens": 5,
-  "temperature": 1,
-  "top_p": 1,
-  "n": 1,
-  "stream": false,
-  "logprobs": null,
-  "stop": "\n"
-}
-"""
