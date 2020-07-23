@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Phil Mohun, Malcolm Navarro, DNE LLC",
     author_email="calvin@philmohun.com",
-    description="calvin is a Python library for developers using GPT-3.",
+    description="Calvin is a Python library for developers using GPT-3.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/pmohun/calvin",
