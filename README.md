@@ -23,7 +23,9 @@ https://github.com/philmohun/calvin
 - Clone locally (pip coming soon) and launch from root directory
 
 ```import calvin # import package``` 
+
 ```calvin.initialize(<YOUR-API-KEY>) # set API key```
+
 ```calvin.complete_prompt("Hello, world!")```
 
 - Alternatively, you can use a predefined prompt from our collection. 
