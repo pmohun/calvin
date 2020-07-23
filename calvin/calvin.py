@@ -109,7 +109,8 @@ def complete_predefined_prompt(prompt_key, index=0, prompt = ""):
       # Set predefined prompt
       payload = prompts[prompt_key][index]
 
-    complete_prompt(
+
+    return complete_prompt(
       payload["prompt"],
       payload["max_tokens"],
       payload["temperature"],
