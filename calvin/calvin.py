@@ -93,7 +93,7 @@ def complete_prompt(prompt, max_tokens=5, temperature=1, top_p=1, n=1):
   else:
     response.raise_for_status()
 
-def complete_predefined_prompt(prompt_key, index=0, prompt = ""):
+def complete_predefined_prompt(prompt_key, prompt = "", index=0):
   global prompts
 
   # If key exists in prompt dictionary select it complete it
