@@ -21,9 +21,13 @@ https://github.com/philmohun/calvin
 ## How to use this library
 
 - Clone locally (pip coming soon) and launch from root directory
-- ```from calvin import calvin # import package``` 
-- ```calvin = calvin.Calvin("xx-yy-zz") # set API key```
-- ```response = calvin.generate(calvin.prompts['philosopher'][0]).json()['choices'][0]['text'] # generate response using preset "philosopher" prompt" ```
+
+```import calvin # import package``` 
+```calvin.initialize(<YOUR-API-KEY>) # set API key```
+```calvin.complete_prompt("Hello, world!")```
+
+- Alternatively, you can use a predefined prompt from our collection. 
+```calvin.complete_predefined_prompt('philosopher')
 
 To see other prompts:
 - ``` calvin.list_prompts() ```
