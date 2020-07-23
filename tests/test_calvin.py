@@ -34,7 +34,7 @@ def test_calvin(api_key, engine):
 
 
   # Make API to complete test prompt
-  response_1 = calvin.complete_prompt("Once upon a time", 5, 1, 1, 1)
+  response_1 = calvin.complete_prompt(prompt="Once upon a time", max_tokens=5, temperature=1, top_p=1, n=1)
   assert(type(response_1) is dict)
   assert(type(response_1["id"]) is str)
   assert(type(response_1["choices"]) is list)
@@ -42,14 +42,14 @@ def test_calvin(api_key, engine):
 
 
   # Make API to complete predefined prompt (no custom prompt added)
-  response_2 = calvin.complete_predefined_prompt("philosopher")
+  response_2 = calvin.complete_predefined_prompt(prompt_key="philosopher")
   assert(type(response_2) is dict)
   assert(type(response_2["id"]) is str)
   assert(type(response_2["choices"]) is list)
   assert(type(response_2["choices"][0]["text"]) is str)
 
   # Make API to complete predefined prompt (custom prompt added)
-  response_3 = calvin.complete_predefined_prompt("philosopher", 0, " without a reason the story took a left turn which no one would predicted.")
+  response_3 = calvin.complete_predefined_prompt(prompt_key="philosopher", index=0, prompt="without a reason the story took a left turn which no one would predicted.")
   assert(type(response_3) is dict)
   assert(type(response_3["id"]) is str)
   assert(type(response_3["choices"]) is list)
