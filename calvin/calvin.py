@@ -1,9 +1,9 @@
 import json
 import requests
 
-# #                                             #   #
-#   Calvin - abstraction module over openai's API  #
-# #                                             #   #
+# #                                               # #
+#   Calvin - abstraction module over openai's API   #
+# #                                               # #
 
 
 # Defile module-scoped variables
@@ -13,7 +13,7 @@ prompts = {}
 
 
 # Initialize module
-def initialize(_api_key, _engine):
+def initialize(_api_key, _engine=engine):
   global engine, headers, prompts
 
   if _engine:
@@ -86,8 +86,8 @@ def create_completion(payload):
 def complete_prompt(prompt):
   payload = {
     "prompt": prompt,
-    "max_tokens": 5,
-    "temperature": 1,
+    "max_tokens": 150,
+    "temperature": 0.9,
     "top_p": 1,
     "n": 1
   }
