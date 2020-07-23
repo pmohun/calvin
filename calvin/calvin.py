@@ -94,13 +94,17 @@ def complete_prompt(prompt):
 
   create_completion(payload)
 
-def complete_predefined_prompt(prompt_key, index=0):
+def complete_predefined_prompt(prompt_key, prompt = "", index=0):
   global prompts
 
-  if prompts[prompt_key] in prompts:
+  if prompt_key in prompts and prompt != "":
+    payload = prompts[prompt_key][index]
+    payload['prompt'] = prompts[prompt_key][index]['prompt'] + " " + prompt
+    create_completion(payload)
+  elif prompt_key in prompts and prompt == "":
     create_completion(prompts[prompt_key][index])
-
-  return "Unable to access predefined prompt."
+  else:
+    return "Unable to access predefined prompt."
 
 
 # Search POST
