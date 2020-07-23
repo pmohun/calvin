@@ -31,8 +31,8 @@ def test_calvin(api_key, engine):
   calvin.set_engine(calvin_engine)
   engine_response = calvin.retrieve_engine()
 
-   print("\nTesting current engine matches retrieved engine...\n")
-   # Assert current module engine matches retrieved engine
+  print("\nTesting current engine matches retrieved engine...\n")
+  # Assert current module engine matches retrieved engine
   assert(engine_response["id"] == calvin_engine)
 
   print("\nTesting complete prompt method...\n")
